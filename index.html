@@ -13,19 +13,49 @@
     <title>Library</title>
   </head>
   <body>
-    <header><h1>Library</h1></header>
-    <main>
-      <div class="book">
-        <img src="" />
-        <h3 class="title"></h3>
-        <p class="author"></p>
-        <p class="pages"></p>
-        <div class=""></div>
-      </div>
-    </main>
+    <header>
+      <h1>Library</h1>
+      <button id="addBook" onclick="toggleForm()">New Book</button>
+    </header>
+    <div class="formDiv">
+      <form id="form">
+        <label for="title">Book Title:</label>
+        <input
+          type="text"
+          name="title"
+          id="title"
+          placeholder="The Hobbit"
+          required
+        />
+        <label for="author">Author:</label>
+        <input
+          type="text"
+          name="author"
+          id="author"
+          placeholder="J.R.R Tolkein"
+          required
+        />
+        <label for="cover">Source:</label>
+        <input
+          type="text"
+          name="cover"
+          id="cover"
+          placeholder="www.photo.com"
+        />
+        <label for="nop">Pages:</label>
+        <input type="text" name="nop" id="nop" placeholder="179" required />
+
+        <label for="read"
+          >Book finished ? <input type="checkbox" name="read" id="read"
+        /></label>
+        <button id="submit" onclick="addBookToLibrary()">Add Book!</button>
+      </form>
+    </div>
+    <main></main>
     <footer>
       Copyright © 2022 EduardTms
       <a href="https://github.com/EduardTms" class="fa fa-github"></a>
     </footer>
+    <script src="main.js"></script>
   </body>
 </html>
