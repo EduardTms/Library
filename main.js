@@ -46,7 +46,10 @@ const addBookToLibrary = () => {
     let pages = document.querySelector('input[name=nop]');
     console.log("pages:" + pages);
     let read = document.querySelector('input[name=read].checked');
-    read ? read = 'finished' : read = 'unfinished';
+    if(read === false) {
+        read = 'unfinished';
+    }
+    read = 'finished';
     let cover = 'photos/defaultCover';
     try {
         cover = document.querySelector('input[name=cover]');
@@ -59,7 +62,6 @@ const addBookToLibrary = () => {
     let newBook = new Book(title.value,author.value,cover.value,pages.value,read.value);
     myLibrary.push(newBook);
     createCard(newBook);
-    populateScreen(myLibrary);
 }
 
 const createCard = (book) => {
@@ -67,23 +69,22 @@ const createCard = (book) => {
     div.classList.add('book');
     let cover = document.createElement('img');
     cover.src = book.cover;
-    div.append(cover);
+    div.appendChild(cover);
     let title = document.createElement('h3');
     title.textContent = book.title;
     title.classList.add('title');
-    div.append(title);
+    div.appendChild(title);
     let author = document.createElement('p');
     author.textContent = book.author;
     author.classList.add('author');
-    div.append(author);
-    let pages = document.createElement('p');
-    pages = book.pages;
-    // pages.classList.add('pages');
-    div.append(pages);
-    let done = document.createElement('button');
-    done = book.read;
-    // done.classList.add("unfinished");
-    div.append(done);
+    div.appendChild(author);
+    let pages = document.createElement('h1');
+    pages.textContent = book.pages;
+    pages.classList.add('pages');
+    div.appendChild(pages);
+    let done = document.createElement('p');
+    done.classList.add(book.read);
+    div.appendChild(done);
     mainLibrary.append(div);
 }
 
@@ -93,29 +94,11 @@ const populateScreen = (lib) => {
     })
 }
 
-function populateStorage() {
-    localStorage.setItem("storedLibrary", JSON.stringify(myLibrary))
-}
 
-// restore contents of myLibrary when user refreshes the page
-function restore() {
-    // if local storage is empty, display contents of myLibrary
-    if (!localStorage.storedLibrary) {
-        populateScreen(myLibrary);
-    } else {
-    let restoredObjects = localStorage.getItem('storedLibrary');
-    restoredObjects = JSON.parse(restoredObjects);
-    myLibrary = restoredObjects;
-    populateScreen(myLibrary);
-    }
-}
-
-populateStorage();
-
+populateScreen(myLibrary);
 
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
     form.style.display = "block";
 }
 
-restore();

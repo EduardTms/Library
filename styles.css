@@ -60,11 +60,15 @@ main {
     border-radius: 1rem;
 }
 
-.book > .title, .author, .pages {
+.book > .title, .author ,.pages {
     font-size: 1.5rem;
     margin-top: 5px;
     max-width: 250px;
     text-align: center;
+}
+
+.book > .author {
+    color: #2e2e2e;
 }
 
 .book > .finished {
