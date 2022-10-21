@@ -7,28 +7,28 @@ let myLibrary = [
         author: 'by Mark Manson',
         cover: 'photos/sublteArt.jpg',
         pages: '204',
-        read: 'finished'
+        read: 'finished',
     },
     {
         title: 'Atomic Habits',
         author: 'by James Clear',
         cover: 'photos/atomicHabits.jpg',
         pages: '306',
-        read: 'unfinished'
+        read: 'unfinished',
     },
     {
         title: 'The 48 Laws of Power',
         author: 'by Robert Greene',
         cover: 'photos/48Laws.jpg',
         pages: '480',
-        read: 'finished'
+        read: 'finished',
     },
     {
         title: 'Everything is F#cked',
         author: 'by Mark Manson',
         cover: 'photos/everyThing.jpg',
         pages: '288',
-        read: 'finished'
+        read: 'finished',
     }];
 
 // Book Constructor
@@ -61,12 +61,13 @@ const addBookToLibrary = () => {
     }
     let newBook = new Book(title.value,author.value,cover.value,pages.value,read.value);
     myLibrary.push(newBook);
-    createCard(newBook);
+    createCard(newBook, myLibrary.length);
 }
 
-const createCard = (book) => {
+const createCard = (book,index) => {
     const div = document.createElement('div');
     div.classList.add('book');
+    div.id = index;
     let cover = document.createElement('img');
     cover.src = book.cover;
     div.appendChild(cover);
@@ -85,6 +86,10 @@ const createCard = (book) => {
     let done = document.createElement('p');
     done.classList.add(book.read);
     div.appendChild(done);
+    let remove = document.createElement('button');
+    remove.textContent = "Remove Book";
+    remove.id = "removeBtn";
+    div.appendChild(remove);
     mainLibrary.append(div);
 }
 
@@ -94,8 +99,14 @@ const populateScreen = (lib) => {
     })
 }
 
-
 populateScreen(myLibrary);
+
+const removeBtn = document.querySelector('#removeBtn');
+removeBtn.addEventListener('click', (index) => {
+    console.log(index);
+     myLibrary.splice(index,1);
+});
+
 
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
