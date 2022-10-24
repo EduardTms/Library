@@ -1,6 +1,7 @@
 const form = document.querySelector('#form');
 const newBookBtn = document.getElementById('#addBook');
 const mainLibrary = document.querySelector('main');
+const addBtn = document.querySelector('#addToLibrary');
 let myLibrary = [
     {
         title: 'The Subtle Art Of Not Giving a F#ck',
@@ -50,18 +51,15 @@ const addBookToLibrary = () => {
         read = 'unfinished';
     }
     read = 'finished';
-    let cover = 'photos/defaultCover';
-    try {
-        cover = document.querySelector('input[name=cover]');
-    } catch(err) {
-        cover = 'photos/defaultCover';
-    }
-    if(cover.value === 'undefined' || cover.value === null) {
-        cover = 'photos/defaultCover';
+    let cover = document.querySelector('input[name=cover]');
+    console.log(cover);
+    if(cover.src === '') {
+        cover = '../photos/defaultCover.jpg';
     }
     let newBook = new Book(title.value,author.value,cover.value,pages.value,read.value);
     myLibrary.push(newBook);
     createCard(newBook, myLibrary.length);
+    form.style.display = 'none';
 }
 
 const createCard = (book,index) => {
@@ -71,6 +69,7 @@ const createCard = (book,index) => {
     let cover = document.createElement('img');
     cover.src = book.cover;
     div.appendChild(cover);
+    console.log(cover);
     let title = document.createElement('h3');
     title.textContent = book.title;
     title.classList.add('title');
@@ -111,5 +110,6 @@ removeBtn.addEventListener('click', (index) => {
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
     form.style.display = "block";
+    addBtn.style.display = 'block';
 }
 
