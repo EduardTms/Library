@@ -67,14 +67,15 @@ const addBookToLibrary = () => {
     formError.textContent = '';
     let newBook = new Book(title.value,author.value,cover.value,pages.value,read);
     myLibrary.push(newBook);
-    createCard(newBook, myLibrary.length -1);
-    console.log(myLibrary.length-1);
+    populateStorage();
+    createCard(newBook, myLibrary.length-1);
     form.style.display = 'none';
     }
 }
 
 const deleteFromLibrary = (index) => {
     myLibrary.splice(index,1);
+    populateStorage();
     // deletes all books from the page before it populates again
     deleteCards();
     populateScreen(myLibrary);
@@ -85,48 +86,68 @@ const deleteCards = () => {
     books.forEach(book => book.remove());
 }
 
-const createCard = (book,index) => {
-    const div = document.createElement('div');
-    div.id = index;
-    div.classList.add('book');
+const createCard = (book , index) => {
+    console.log(index);
+    const bookCard = document.createElement('div');
+    bookCard.id = index;
+    bookCard.classList.add('book');
     let cover = document.createElement('img');
     cover.src = book.cover;
-    div.appendChild(cover);
+    bookCard.appendChild(cover);
     let title = document.createElement('h3');
     title.textContent = book.title;
     title.classList.add('title');
-    div.appendChild(title);
+    bookCard.appendChild(title);
     let author = document.createElement('p');
     author.textContent = book.author;
     author.classList.add('author');
-    div.appendChild(author);
+    bookCard.appendChild(author);
     let pages = document.createElement('h1');
     pages.textContent = book.pages;
     pages.classList.add('pages');
-    div.appendChild(pages);
+    bookCard.appendChild(pages);
     let done = document.createElement('p');
     done.classList.add(book.read);
-    div.appendChild(done);
+    bookCard.appendChild(done);
     let remove = document.createElement('button');
     remove.textContent = "Remove Book";
     remove.classList.add("removeBtn");
-    remove.addEventListener('click', deleteFromLibrary);
-    div.appendChild(remove);
-    mainLibrary.append(div);
+    remove.addEventListener('click', () => deleteFromLibrary(index));
+    bookCard.appendChild(remove);
+    mainLibrary.append(bookCard);
 }
 
 const populateScreen = (lib) => {
-    lib.forEach(arrayItem => {
-        createCard(arrayItem);
-    })
+    for(var i=0; i < lib.length; i++) {
+        createCard(lib[i],i);
+    }
 }
-
-populateScreen(myLibrary);
-
-
 
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
     form.style.display = "block";
 }
 
+
+function populateStorage() {
+    localStorage.setItem("storedLibrary", JSON.stringify(myLibrary))
+}
+
+// restore contents of myLibrary when user refreshes the page
+function restore() {
+    // if local storage is empty, display contents of myLibrary
+    if (!localStorage.storedLibrary) {
+        populateScreen(myLibrary);
+    } else {
+    let restoredObjects = localStorage.getItem('storedLibrary');
+    restoredObjects = JSON.parse(restoredObjects);
+    myLibrary = restoredObjects;
+    populateScreen(myLibrary);
+    }
+}
+
+
+// when the user loads page for first time, they will see the example books
+// after that, any changes they make to the array will be saved to the localStorage
+// to clear local storage, go to Console -> Application, Local Storage, right click File and Clear.
+restore();
