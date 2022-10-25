@@ -95,13 +95,13 @@ main {
     content: "Unfinished";
 }
 
-.book > #removeBtn {
+.book > .removeBtn {
     margin-top: 20px;
     font-size: 0.7rem;
     background-color: #15172b;
 }
 
-.book > #removeBtn:hover {
+.book > .removeBtn:hover {
     color: #15172b;
     background-color: white;
 }

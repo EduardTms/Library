@@ -68,17 +68,29 @@ const addBookToLibrary = () => {
     let newBook = new Book(title.value,author.value,cover.value,pages.value,read);
     myLibrary.push(newBook);
     createCard(newBook, myLibrary.length -1);
+    console.log(myLibrary.length-1);
     form.style.display = 'none';
     }
 }
 
+const deleteFromLibrary = (index) => {
+    myLibrary.splice(index,1);
+    // deletes all books from the page before it populates again
+    deleteCards();
+    populateScreen(myLibrary);
+}
+
+const deleteCards = () => {
+    const books = document.querySelectorAll('.book');
+    books.forEach(book => book.remove());
+}
+
 const createCard = (book,index) => {
     const div = document.createElement('div');
-    div.classList.add('book');
     div.id = index;
+    div.classList.add('book');
     let cover = document.createElement('img');
     cover.src = book.cover;
-    // console.log(book.cover);
     div.appendChild(cover);
     let title = document.createElement('h3');
     title.textContent = book.title;
@@ -97,7 +109,8 @@ const createCard = (book,index) => {
     div.appendChild(done);
     let remove = document.createElement('button');
     remove.textContent = "Remove Book";
-    remove.id = "removeBtn";
+    remove.classList.add("removeBtn");
+    remove.addEventListener('click', deleteFromLibrary);
     div.appendChild(remove);
     mainLibrary.append(div);
 }
@@ -110,11 +123,6 @@ const populateScreen = (lib) => {
 
 populateScreen(myLibrary);
 
-const removeBtn = document.querySelector('#removeBtn');
-removeBtn.addEventListener('click', (index) => {
-    console.log(index);
-     myLibrary.splice(index,1);
-});
 
 
 // makes the form show up when New Book btn is pressed
