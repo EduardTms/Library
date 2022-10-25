@@ -125,8 +125,10 @@ const populateScreen = (lib) => {
 
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
-    form.style.display = "block";
+    form.classList.toggle('hidden');
 }
+
+
 
 
 function populateStorage() {
