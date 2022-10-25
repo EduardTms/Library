@@ -2,6 +2,7 @@ const form = document.querySelector('#form');
 const newBookBtn = document.getElementById('#addBook');
 const mainLibrary = document.querySelector('main');
 const formError = document.querySelector("#error");
+
 let myLibrary = [
     {
         title: 'The Subtle Art Of Not Giving a F#ck',
@@ -87,7 +88,6 @@ const deleteCards = () => {
 }
 
 const createCard = (book , index) => {
-    console.log(index);
     const bookCard = document.createElement('div');
     bookCard.id = index;
     bookCard.classList.add('book');
@@ -108,6 +108,7 @@ const createCard = (book , index) => {
     bookCard.appendChild(pages);
     let done = document.createElement('p');
     done.classList.add(book.read);
+    done.addEventListener('click', (e) => changeReadStatus(e));
     bookCard.appendChild(done);
     let remove = document.createElement('button');
     remove.textContent = "Remove Book";
@@ -123,20 +124,35 @@ const populateScreen = (lib) => {
     }
 }
 
+const changeReadStatus = (e) => {
+    // get book id 
+    const parentId = e.target.parentNode.id;
+    if(myLibrary[parentId].read === 'finished') {
+        myLibrary[parentId].read = 'unfinished';
+        deleteCards()
+        populateStorage();
+        populateScreen(myLibrary);
+    } else if (myLibrary[parentId].read === 'unfinished') {
+        myLibrary[parentId].read = 'finished';
+        deleteCards();
+        populateStorage();
+        populateScreen(myLibrary);
+    }
+} 
+
+
 // makes the form show up when New Book btn is pressed
 const toggleForm = () => {
     form.classList.toggle('hidden');
 }
 
-
-
-
-function populateStorage() {
+// add Library to browser localStorage
+const populateStorage = () => {
     localStorage.setItem("storedLibrary", JSON.stringify(myLibrary))
 }
 
 // restore contents of myLibrary when user refreshes the page
-function restore() {
+const restore = () => {
     // if local storage is empty, display contents of myLibrary
     if (!localStorage.storedLibrary) {
         populateScreen(myLibrary);
@@ -147,7 +163,6 @@ function restore() {
     populateScreen(myLibrary);
     }
 }
-
 
 // when the user loads page for first time, they will see the example books
 // after that, any changes they make to the array will be saved to the localStorage
