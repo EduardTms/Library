@@ -1,7 +1,7 @@
 body {
     font-family: "Dank Mono", ui-monospace, monospace;
     height: 100vh;
-    width: calc(100vw - 20px);
+    width: 100%;
 }
 
 header {
@@ -57,7 +57,7 @@ main {
 .book > img {
     width: 175px;
     height: 250px;
-    border-radius: 1rem;
+    border-radius: 1em;
 }
 
 .book > .title, .author ,.pages {
@@ -71,28 +71,24 @@ main {
     color: #2e2e2e;
 }
 
-.book > .finished {
-    margin-top: 10px;
-    background-color: rgb(154, 214, 194);
-    padding: 10px;
-    border-radius: 1em;
-    font-size: 1.2rem;
+.book > .finished, .book > .unfinished {
+    margin-top: 20px;
 }
 
 .book > .finished::before {
+    background-color: rgb(154, 214, 194);
     content: "Finished";
-}
-
-.book > .unfinished {
-    margin-top: 10px;
-    background-color: rgb(214, 161, 154);
     padding: 10px;
     border-radius: 1em;
     font-size: 1.2rem;
 }
 
 .book > .unfinished::before {
+    background-color: rgb(214, 161, 154);
     content: "Unfinished";
+    padding: 10px;
+    border-radius: 1em;
+    font-size: 1.2rem;
 }
 
 .book > .removeBtn {
